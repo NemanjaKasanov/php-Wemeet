@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /.vscode/
+Disallow: /config/
+Disallow: /models/
+Disallow: /vendor/
+Disallow: /data/
