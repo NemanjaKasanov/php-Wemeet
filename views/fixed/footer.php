@@ -12,12 +12,10 @@
                                         Follow Us
                                 </h3>
                                 <ul>
-                                    <li><a target="_blank" href="#">Facebook</a></li>
-                                    <li><a target="_blank" href="#">Twitter</a></li>
-                                    <li><a target="_blank" href="#">Instagram</a></li>
-                                    <li><a target="_blank" href="#">Youtube</a></li>
+
+                                <?php populate_links("SELECT * FROM social_media"); ?>
+
                                 </ul>
-    
                             </div>
                         </div>
                         <div class="col-xl-4 col-md-4 col-lg-4">
@@ -26,20 +24,20 @@
                                         Links
                                 </h3>
                                 <ul>
-                                    <li><a target="_blank" href="schedule.html">Schedule</a></li>
-                                    <li><a target="_blank" href="speakers.html">Speakers</a></li>
-                                    <li><a target="_blank" href="contact.html">Contact</a></li>
+                                    
+                                <?php populate_links("SELECT * FROM links"); ?>
+
                                 </ul>
                             </div>
                         </div>
                         <div class="col-xl-4 col-md-4 col-lg-4">
                             <div class="footer_widget">
                                 <h3 class="footer_title">
-                                        Venue
+                                        Wemeet
                                 </h3>
                                 <p>
-                                    200, D-block, Green lane USA <br>
-                                    edumark@contact.com <br>
+                                    Belgrade, Serbia <br>
+                                    Wemeet@gmail.com <br>
                                     +10 367 467 8934
                                 </p>
                             </div>
@@ -53,7 +51,7 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <p class="copy_right text-center">
-                                Copyright wemeet 2021 &copy;
+                                Copyright Wemeet 2021 &copy;
                             </p>
                         </div>
                     </div>
