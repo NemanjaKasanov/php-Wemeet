@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-xl-9">
                         <div class="title_text">
-                            <h3>Wemeet<br>Social Platform
+                            <h3>Wemeet<br/>Social Platform<br/>2021
                             </h3>
                             <a href="#about_us" class="boxed-btn-white">About Us</a>
                         </div>

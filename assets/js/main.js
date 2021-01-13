@@ -92,10 +92,26 @@ autoplaySpeed: 800,
 });
 
 // count_dwon
-$('#clock').countdown('2019/12/21', function(event) {
-  $(this).html(event.strftime('<div class="countdown_time"><div class="single_countdown"><h3>%D</h3><span>days</span></div><div class="single_countdown"><h3>%H</h3><span>Hours</span></div><div class="single_countdown"><h3>%M</h3><span>Minutes</span></div><div class="single_countdown"><h3>%S</h3><span>Seconds</span></div></div>'));
-});
+// $('#clock').countdown('2019/12/21', function(event) {
+  
+//   $(this).html(event.strftime('<div class="countdown_time"><div class="single_countdown"><h3>%D</h3><span>days</span></div><div class="single_countdown"><h3>%H</h3><span>Hours</span></div><div class="single_countdown"><h3>%M</h3><span>Minutes</span></div><div class="single_countdown"><h3>%S</h3><span>Seconds</span></div></div>'));
+// });
 
+let time = new Date();
+let hour = time.getHours();
+let minutes = time.getMinutes();
+let seconds = time.getSeconds();
+
+$('#clock').html(`<div class="countdown_time"><div class="single_countdown"><h3>${hour}</h3><span>Hours</span></div><div class="single_countdown"><h3>${minutes}</h3><span>Minutes</span></div><div class="single_countdown"><h3>${seconds}</h3><span>Seconds</span></div></div>`);
+
+setInterval(function(){
+  let time = new Date();
+  let hour = time.getHours();
+  let minutes = time.getMinutes();
+  let seconds = time.getSeconds();
+  
+  $('#clock').html(`<div class="countdown_time"><div class="single_countdown"><h3>${hour}</h3><span>Hours</span></div><div class="single_countdown"><h3>${minutes}</h3><span>Minutes</span></div><div class="single_countdown"><h3>${seconds}</h3><span>Seconds</span></div></div>`);
+}, 1000)
 
 
 

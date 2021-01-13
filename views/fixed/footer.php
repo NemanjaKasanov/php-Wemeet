@@ -88,6 +88,7 @@
     <script src="assets/js/mail-script.js"></script>
     
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/_main.js"></script>
 
 </body>
 

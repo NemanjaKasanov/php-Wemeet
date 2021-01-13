@@ -9,9 +9,13 @@ if(!isset($_GET['page'])){
     include 'views/home/home_no_log_in.php';
 }
 else{
+    include 'views/fixed/header.php';
     switch($_GET['page']){
-        case 'something':
-            // include ...
+        case 'register':
+            include 'views/logging/register.php';
+        break;
+        case 'login':
+
         break;
     }
 }
