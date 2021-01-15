@@ -58,3 +58,9 @@ function registerFormCheck(){
     $('#_form').show();
     return false;
 }
+
+function loginFormCheck(){
+    if(switchArray[2] == true && switchArray[3] == true) return true;
+    $('#_form').show();
+    return false;
+}

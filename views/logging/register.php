@@ -22,7 +22,7 @@
             
             <div class="mt-10">
                 <input type="password" name="pass" id="pass" placeholder="Password" class="single-input"/>
-                <p class="red text-center text-danger" id="_pass">Password must contain at least one cappital letter, lower case letter, number and a special symbol.</p>
+                <p class="red text-center text-danger" id="_pass">Password must contain at least one cappital letter, lower case letter and at least one number.</p>
             </div>
             
             <div class="mt-10">
@@ -55,8 +55,18 @@
             </div>
 
             <div class="col-12 text-center mt-5">
-                <input type="submit" class="btn btn-primary" name="submit" id="submit" value="Submit"/>
+                <input type="submit" class="btn btn-primary" name="submit_register" id="submit" value="Submit"/>
                 <p class="red text-center text-danger" id="_form">All data entered into the form must be in a valid format.</p>
+            </div>
+
+            <div class="col-12 mt-3">
+                <?php 
+                    if(isset($_SESSION['errors'])){
+                        include 'models/logging/functions.php';
+                        show_errors_array($_SESSION['errors']);
+                        $_SESSION['errors'] = [];
+                    }
+                ?>
             </div>
 
         </form>

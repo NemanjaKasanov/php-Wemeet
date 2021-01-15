@@ -5,8 +5,8 @@
                 <div class="row align-items-center justify-content-between no-gutters">
                     <div class="col-xl-2 col-lg-2">
                         <div class="logo-img">
-                            <a href="index.html">
-                                <img src="assets/img/logo.png" alt="">
+                            <a href="index.php">
+                                <img src="assets/img/logo.png" alt="Wemeet social platform">
                             </a>
                         </div>
                     </div>

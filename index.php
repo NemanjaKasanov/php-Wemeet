@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 require_once "config/connection.php";
 
 include "views/fixed/head.php";
@@ -15,7 +16,7 @@ else{
             include 'views/logging/register.php';
         break;
         case 'login':
-
+            include 'views/logging/login.php';
         break;
     }
 }
