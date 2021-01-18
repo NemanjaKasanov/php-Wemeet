@@ -18,9 +18,8 @@
 
                                     require 'models/nav/functions.php';
                                     
-                                    $query = "SELECT * FROM nav_elements WHERE parent=0 AND login_status=0 OR login_status=1 ORDER BY position ASC";
-                                    // if(isset($_SESSION['userStatus'] && $_SESSION['userStatus'] == 1)) $query = "SELECT * FROM nav_elements WHERE parent=0 AND login_status=0 OR login_status=2 ORDER BY position ASC";
-                                    // else $query = "SELECT * FROM nav_elements WHERE parent=0 AND login_status=0 OR login_status=1 ORDER BY position ASC";
+                                    if(isset($_SESSION['userId'])) $query = "SELECT * FROM nav_elements WHERE parent=0 AND login_status=0 OR login_status=2 ORDER BY position ASC";
+                                    else $query = "SELECT * FROM nav_elements WHERE parent=0 AND login_status=0 OR login_status=1 ORDER BY position ASC";
 
                                     $rows = executeQuery($query);
 
@@ -48,7 +47,7 @@
                     </div>
                     <div class="col-xl-2 col-lg-2 d-none d-lg-block">
                         <div class="buy_ticket">
-                            <a href="#" class="boxed-btn-white">Buy Ticket</a>
+                            <a href="index.php?page=chat" class="boxed-btn-white">Chat</a>
                         </div>
                     </div>
                     <div class="col-12">

@@ -19,7 +19,7 @@ if(isset($_POST['submit_login'])){
     $pass = md5($pass);
     $user = executeQuery("SELECT * FROM users WHERE email='$email' AND password='$pass'");
 
-    if(count($user) != 1) array_push($errors, "USER WITH THIS EMAIL NOT FOUND. PASSWORD MAY BE WRONG.");
+    if(count($user) != 1) array_push($errors, "USER WITH THIS EMAIL NOT FOUND OR PASSWORD MAY BE WRONG.");
 
     if(count($errors) == 0){
         if(count($user) == 1){

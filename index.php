@@ -7,7 +7,8 @@ include "views/fixed/head.php";
 include "views/fixed/nav.php";
 
 if(!isset($_GET['page'])){
-    include 'views/home/home_no_log_in.php';
+    if(isset($_SESSION['userId'])) include 'views/home/home_logged_in.php';
+    else include 'views/home/home_no_log_in.php';
 }
 else{
     include 'views/fixed/header.php';

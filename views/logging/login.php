@@ -1,3 +1,12 @@
+<?php 
+if(isset($_SESSION['userId'])):
+?>
+    <p class="h1 text-center m-5 p-5">You are already logged in.</p>
+<?php
+endif;
+if(!isset($_SESSION['userId'])):
+?>
+
 <div class="col-12 d-flex justify-content-center mt-5 mb-5 pt-5 pb-5">
     <div class="col-lg-6 col-sm-12 mt-5 mb-5 ">
         <form id="register_form" action="models/logging/login.php" method="POST" class="col-12" name="registerForm" onsubmit="return loginFormCheck()">
@@ -33,3 +42,6 @@
         </form>
     </div>
 </div>
+
+<?php
+endif;

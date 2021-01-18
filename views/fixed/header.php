@@ -11,6 +11,8 @@
 
                             if($page == 'register') echo '<h3>Register here:</h3>';
                             else if($page == 'login') echo '<h3>Log In:</h3>';
+
+                            else if($page == 'nologin') echo '<h3>You are not logged in or authorised to open this page.</h3>';
                             else echo '<h3>A page with this name does not exist.</h3>';
                             
                             ?>
