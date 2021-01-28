@@ -1,12 +1,16 @@
-var switchArray = [false, false, false, false, false, false, false]
+var switchArray = [false, false, false, false, false, false, false];
+var switchArrayForPost = [false, false, false];
 
 $(document).ready(function(){
     // Hide field alerts
     $('.red').hide();
 
-    const regexNameLastName = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-
     // Checks for validity
+    const regexNameLastName = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+    const regexForTextTitle = /^[a-zA-Z0-9.,'-_:;?! ]{1,70}$/;
+    const regexForTextContent = /^[a-zA-Z0-9.,'-_:;?! ]{1,500}$/;
+
+    // Login and Registration
     $('#name').blur(function(){ regexCheck(regexNameLastName, $("#name"), $("#_name"), 0) });
     $('#lname').blur(function(){ regexCheck(regexNameLastName, $("#lname"), $("#_lname"), 1) });
     $('#email').blur(function(){ regexCheck(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, $("#email"), $("#_email"), 2) });
@@ -37,19 +41,37 @@ $(document).ready(function(){
         }
     });
     $('#city').blur(function(){ regexCheck(regexNameLastName, $("#city"), $("#_city"), 6) });
-    
+
+    // Posting a Discussion
+    $('#title').blur(function(){ regexCheck(regexForTextTitle, $("#title"), $("#_title"), 0, 1) });
+    $('#content').blur(function(){ regexCheck(regexForTextContent, $("#content"), $("#_content"), 2, 1) });
+    $('#category').change(function(){
+        const value = $(this).val();
+
+        if(value != 0){
+            $('#_content').hide();
+            switchArrayForPost[1] = true;
+        }
+        else{
+            $('#_content').show();
+            switchArrayForPost[1] = false;
+        }
+    })
+
 });
 
-function regexCheck(regex, address, alert, switchNum){
+function regexCheck(regex, address, alert, switchNum, arrayForSwitch = 0){
     let value = address.val();
 
     if(regex.test(value)){
         alert.hide();
-        switchArray[switchNum] = true;
+        if(arrayForSwitch == 0) switchArray[switchNum] = true;
+        else if(arrayForSwitch == 1)switchArrayForPost[switchNum] = true;
     }
     else{
         alert.show();
-        switchArray[switchNum] = false;
+        if(arrayForSwitch == 0) switchArray[switchNum] = false;
+        else if(arrayForSwitch == 1)switchArrayForPost[switchNum] = false;
     }
 }
 
@@ -62,5 +84,11 @@ function registerFormCheck(){
 function loginFormCheck(){
     if(switchArray[2] == true && switchArray[3] == true) return true;
     $('#_form').show();
+    return false;
+}
+
+function postFormCheck(){
+    if(!switchArrayForPost.includes(false)) return true;
+    $('#_post').show();
     return false;
 }

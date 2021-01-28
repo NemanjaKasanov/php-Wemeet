@@ -15,10 +15,14 @@ else{
     switch($_GET['page']){
         case 'register':
             include 'views/logging/register.php';
-        break;
+            break;
         case 'login':
             include 'views/logging/login.php';
-        break;
+            break;
+        case 'post':
+            include 'views/discussions/post.php';
+            break;
+
     }
 }
 

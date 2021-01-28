@@ -1,6 +1,8 @@
 <?php
 require_once 'config/connection.php';
 require_once 'models/functions.php';
+require_once 'models/discussions/functions.php';
+
 $userData = getuserData($_SESSION['userId'])[0];
 $userId = $userData->id;
 $userName = $userData->name;
@@ -55,73 +57,87 @@ $userCity = $userData->city;
                 <div class="blog_left_sidebar">
 
                     <!-- POSTS -->
-                    <article class="blog_item">
-                        <div class="blog_item_img">
-                            <img class="card-img rounded-0" src="assets/img/blog/single_blog_1.png" alt="">
-                            <a href="#" class="blog_item_date">
-                                <h3>15</h3>
-                                <p>Jan</p>
-                            </a>
-                        </div>
+                    <?php
 
-                        <div class="blog_details">
-                            <a class="d-inline-block" href="single-blog.html">
-                                <h2>Google inks pact for new 35-storey office</h2>
-                            </a>
-                            <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                he earth it first without heaven in place seed it second morning saying.</p>
-                            <ul class="blog-info-link">
-                                <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
-                                <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
-                            </ul>
-                        </div>
-                    </article>
+                    $per_page = 5;
+                    $count = executeQuery("SELECT COUNT(id) AS cnt FROM discussion")[0]->cnt;
+                    $pages = $count / $per_page;
 
-                    <article class="blog_item">
-                        <div class="blog_item_img">
-                            <img class="card-img rounded-0" src="assets/img/blog/single_blog_2.png" alt="">
-                            <a href="#" class="blog_item_date">
-                                <h3>15</h3>
-                                <p>Jan</p>
-                            </a>
-                        </div>
+                    $page = 1;
+                    if(!isset($_GET['page_num'])) $page = 1;
+                    else $page = $_GET['page_num'];
 
-                        <div class="blog_details">
-                            <a class="d-inline-block" href="single-blog.html">
-                                <h2>Google inks pact for new 35-storey office</h2>
-                            </a>
-                            <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                he earth it first without heaven in place seed it second morning saying.</p>
-                            <ul class="blog-info-link">
-                                <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
-                                <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
-                            </ul>
-                        </div>
-                    </article>
+                    if(isset($_GET['page_num'])) {
+                        if ($_GET['page_num'] < 1) $page = $pages;
+                        if ($_GET['page_num'] > $pages) $page = 1;
+                    }
+
+                    $limit = ($page - 1) * $per_page;
+
+                    $discussions = executeQuery("SELECT * FROM discussion ORDER BY timestamp DESC LIMIT ".$limit.", ".$per_page);
+
+                    foreach($discussions as $el):
+                        $timestamp = $el->timestamp;
+                        $day = date("d", $timestamp);
+                        $month = date("M", $timestamp);
+
+                        $cat_id = $el->category;
+                        $category = executeQuery("SELECT c.name FROM category AS c INNER JOIN discussion AS d ON c.id = d.category WHERE c.id =".$cat_id);
+                        $category = $category[0]->name;
+
+                        $user = executeQuery("SELECT * FROM users WHERE id = ".$el->user_id)[0];
+                        $user_name = $user->name." ".$user->last_name;
+
+//                        ADD COMMENTS COUNT FOR EACH DISCUSSION
+
+                    ?>
+                        <article class="blog_item">
+                            <div class="blog_item_img">
+                                <img class="card-img rounded-0" src="assets/img/blog/single_blog_1.png" alt="">
+                                <a href="index.php?page=discussion&id=<?= $el->id ?>" class="blog_item_date">
+                                    <h3><?= $day ?></h3>
+                                    <p><?= $month ?></p>
+                                </a>
+                            </div>
+                            <div class="blog_details">
+                                <a class="d-inline-block" href="index.php?page=discussion&id=<?= $el->id ?>">
+                                    <h2><?= $el->name ?></h2>
+                                </a>
+                                <p><?= $el->content ?></p>
+                                <ul class="blog-info-link">
+                                    <li><a href="index.php?page=discussion&id=<?= $el->id ?>"><i class="fa fa-user"> <?= $user_name ?></i></a></li>
+                                    <li><a href="index.php?page=discussion&id=<?= $el->id ?>"><i class="fa fa-globe"> <?= $category ?></i></a></li>
+                                    <li><a href="index.php?page=discussion&id=<?= $el->id ?>"><i class="fa fa-comments"> </i> 03 Comments</a></li>
+                                </ul>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
                     <!-- POSTS END -->
 
+                    <?php
+                    $next_page = $page + 1;
+                    $last_page = $page - 1;
+                    ?>
                     <!-- PAGINATION -->
                     <div class="blog-pagination justify-content-center d-flex">
                         <ul class="pagination">
                             <li class="page-item">
-                                <a href="#" class="page-link" aria-label="Previous">
+                                <a href="index.php?page_num=<?= $last_page ?>" class="page-link" aria-label="Previous">
                                     <i class="ti-angle-left"></i>
                                 </a>
                             </li>
                             <li class="page-item">
-                                <a href="#" class="page-link">1</a>
-                            </li>
-                            <li class="page-item active">
-                                <a href="#" class="page-link">2</a>
+                                <a href="index.php?page_num=<?= $page ?>" class="page-link active"><?= $page ?></a>
                             </li>
                             <li class="page-item">
-                                <a href="#" class="page-link" aria-label="Next">
+                                <a href="index.php?page_num=<?= $next_page ?>" class="page-link" aria-label="Next">
                                     <i class="ti-angle-right"></i>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <!-- PAGINATION END -->
+
                 </div>
             </div>
 
@@ -140,27 +156,29 @@ $userCity = $userData->city;
                                     </div>
                                 </div>
                             </div>
-                            <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                    type="submit">Search</button>
+                            <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">Search</button>
                         </form>
                     </aside>
 
+                    <!-- CATEGORIES -->
                     <aside class="single_sidebar_widget post_category_widget">
                         <h4 class="widget_title">Discussion Categories</h4>
                         <ul class="list cat-list">
                             <?php
-                            $categories = executeQuery("SELECT * FROM category");
+                            $categories = executeQuery("SELECT * FROM category ORDER BY name ASC");
                             foreach($categories as $ctg):
+                                $number_of_discussions = executeQuery("SELECT COUNT(category) AS num FROM discussion WHERE category=$ctg->id")[0]->num;
                             ?>
-                            <li>
-                                <a href="#" class="d-flex">
-                                    <p><?= $ctg->name ?></p>
-                                    <p>(0)</p>
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p><?= $ctg->name ?></p>
+                                        <p>(<?= $number_of_discussions ?>)</p>
+                                    </a>
+                                </li>
                             <?php endforeach; ?>
                         </ul>
                     </aside>
+                    <!-- CATEGORIES END -->
 
                     <aside class="single_sidebar_widget tag_cloud_widget">
                         <h4 class="widget_title">Tag Clouds</h4>
