@@ -22,7 +22,9 @@ else{
         case 'post':
             include 'views/discussions/post.php';
             break;
-
+        case 'discussion':
+            include 'views/discussions/discussion.php';
+            break;
     }
 }
 

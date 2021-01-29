@@ -12,7 +12,22 @@
                             if($page == 'register') echo '<h3>Register here:</h3>';
                             else if($page == 'login') echo '<h3>Log In:</h3>';
                             else if($page == 'post') echo '<h3>Post a Discussion:</h3>';
-
+                            else if($page == 'discussion'){
+                                if(isset($_GET['id'])){
+                                    $discussion_id = $_GET['id'];
+                                    $discussion = executeQuery("SELECT * FROM discussion WHERE id=$discussion_id");
+                                    if($discussion){
+                                        $discussion = $discussion[0]->name;
+                                        echo '<p class="h1 text-white">'.$discussion.'</p>';
+                                    }
+                                    else{
+                                        echo '<h3>No Such Discussion, Wrong Id</h3>';
+                                    }
+                                }
+                                else{
+                                    echo '<h3>No Such Discussion, Wrong Id</h3>';
+                                }
+                            }
 
                             else if($page == 'nologin') echo '<h3>You are not logged in or authorised to open this page.</h3>';
                             else echo '<h3>A page with this name does not exist.</h3>';

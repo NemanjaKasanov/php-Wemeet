@@ -3,7 +3,7 @@ require_once 'config/connection.php';
 require_once 'models/functions.php';
 require_once 'models/discussions/functions.php';
 
-$userData = getuserData($_SESSION['userId'])[0];
+$userData = getUserData($_SESSION['userId'])[0];
 $userId = $userData->id;
 $userName = $userData->name;
 $userLname = $userData->last_name;
@@ -58,85 +58,8 @@ $userCity = $userData->city;
 
                     <!-- POSTS -->
                     <?php
-
-                    $per_page = 5;
-                    $count = executeQuery("SELECT COUNT(id) AS cnt FROM discussion")[0]->cnt;
-                    $pages = $count / $per_page;
-
-                    $page = 1;
-                    if(!isset($_GET['page_num'])) $page = 1;
-                    else $page = $_GET['page_num'];
-
-                    if(isset($_GET['page_num'])) {
-                        if ($_GET['page_num'] < 1) $page = $pages;
-                        if ($_GET['page_num'] > $pages) $page = 1;
-                    }
-
-                    $limit = ($page - 1) * $per_page;
-
-                    $discussions = executeQuery("SELECT * FROM discussion ORDER BY timestamp DESC LIMIT ".$limit.", ".$per_page);
-
-                    foreach($discussions as $el):
-                        $timestamp = $el->timestamp;
-                        $day = date("d", $timestamp);
-                        $month = date("M", $timestamp);
-
-                        $cat_id = $el->category;
-                        $category = executeQuery("SELECT c.name FROM category AS c INNER JOIN discussion AS d ON c.id = d.category WHERE c.id =".$cat_id);
-                        $category = $category[0]->name;
-
-                        $user = executeQuery("SELECT * FROM users WHERE id = ".$el->user_id)[0];
-                        $user_name = $user->name." ".$user->last_name;
-
-//                        ADD COMMENTS COUNT FOR EACH DISCUSSION
-
+                    create_discussions();
                     ?>
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="assets/img/blog/single_blog_1.png" alt="">
-                                <a href="index.php?page=discussion&id=<?= $el->id ?>" class="blog_item_date">
-                                    <h3><?= $day ?></h3>
-                                    <p><?= $month ?></p>
-                                </a>
-                            </div>
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="index.php?page=discussion&id=<?= $el->id ?>">
-                                    <h2><?= $el->name ?></h2>
-                                </a>
-                                <p><?= $el->content ?></p>
-                                <ul class="blog-info-link">
-                                    <li><a href="index.php?page=discussion&id=<?= $el->id ?>"><i class="fa fa-user"> <?= $user_name ?></i></a></li>
-                                    <li><a href="index.php?page=discussion&id=<?= $el->id ?>"><i class="fa fa-globe"> <?= $category ?></i></a></li>
-                                    <li><a href="index.php?page=discussion&id=<?= $el->id ?>"><i class="fa fa-comments"> </i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-                    <?php endforeach; ?>
-                    <!-- POSTS END -->
-
-                    <?php
-                    $next_page = $page + 1;
-                    $last_page = $page - 1;
-                    ?>
-                    <!-- PAGINATION -->
-                    <div class="blog-pagination justify-content-center d-flex">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a href="index.php?page_num=<?= $last_page ?>" class="page-link" aria-label="Previous">
-                                    <i class="ti-angle-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a href="index.php?page_num=<?= $page ?>" class="page-link active"><?= $page ?></a>
-                            </li>
-                            <li class="page-item">
-                                <a href="index.php?page_num=<?= $next_page ?>" class="page-link" aria-label="Next">
-                                    <i class="ti-angle-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- PAGINATION END -->
 
                 </div>
             </div>
@@ -144,71 +67,23 @@ $userCity = $userData->city;
             <!-- SIDE BAR -->
             <div class="col-lg-4">
                 <div class="blog_right_sidebar">
-                    <aside class="single_sidebar_widget search_widget">
-                        <form action="#">
-                            <div class="form-group">
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder='Search Keyword'
-                                           onfocus="this.placeholder = ''"
-                                           onblur="this.placeholder = 'Search Keyword'">
-                                    <div class="input-group-append">
-                                        <button class="btn" type="button"><i class="ti-search"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit">Search</button>
-                        </form>
-                    </aside>
+                    <!-- SEARCH -->
+                    <?php
+                    include 'views/discussions/search_section.php';
+                    ?>
+                    <!-- SEARCH END -->
 
                     <!-- CATEGORIES -->
-                    <aside class="single_sidebar_widget post_category_widget">
-                        <h4 class="widget_title">Discussion Categories</h4>
-                        <ul class="list cat-list">
-                            <?php
-                            $categories = executeQuery("SELECT * FROM category ORDER BY name ASC");
-                            foreach($categories as $ctg):
-                                $number_of_discussions = executeQuery("SELECT COUNT(category) AS num FROM discussion WHERE category=$ctg->id")[0]->num;
-                            ?>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p><?= $ctg->name ?></p>
-                                        <p>(<?= $number_of_discussions ?>)</p>
-                                    </a>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </aside>
+                    <?php
+                    include 'views/discussions/list_categories.php';
+                    ?>
                     <!-- CATEGORIES END -->
 
-                    <aside class="single_sidebar_widget tag_cloud_widget">
-                        <h4 class="widget_title">Tag Clouds</h4>
-                        <ul class="list">
-                            <li>
-                                <a href="#">project</a>
-                            </li>
-                            <li>
-                                <a href="#">love</a>
-                            </li>
-                            <li>
-                                <a href="#">technology</a>
-                            </li>
-                            <li>
-                                <a href="#">travel</a>
-                            </li>
-                            <li>
-                                <a href="#">restaurant</a>
-                            </li>
-                            <li>
-                                <a href="#">life style</a>
-                            </li>
-                            <li>
-                                <a href="#">design</a>
-                            </li>
-                            <li>
-                                <a href="#">illustration</a>
-                            </li>
-                        </ul>
-                    </aside>
+                    <!-- TOP CATEGORIES -->
+                    <?php
+                    include 'views/discussions/top_categories.php';
+                    ?>
+                    <!-- TOP CATEGORIES END -->
 
                 </div>
             </div>
