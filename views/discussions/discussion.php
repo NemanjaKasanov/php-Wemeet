@@ -1,5 +1,5 @@
 <?php
-include 'models/functions.php';
+include_once 'models/functions.php';
 
 $id = $_GET['id'];
 $query = executeQuery("SELECT * FROM discussion WHERE id=$id")[0];
@@ -16,13 +16,13 @@ $user_city = $user_data->city;
 $user_country = getUserCountry($user_id);
 $user_description = $user_data->description;
 
-
+$likes = getLikesForDiscussion($id);
 ?>
 
-<section class="blog_area single-post-area section-padding">
+<section class="blog_area single-post-area section-padding" xmlns="http://www.w3.org/1999/html">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 posts-list">
+            <div class="col-lg-8 posts-list" id="discussions_display_box">
 
                 <div class="single-post">
                     <div class="feature-img">
@@ -32,14 +32,24 @@ $user_description = $user_data->description;
                         <h2><?= $title ?></h2>
                         <ul class="blog-info-link mt-3 mb-4">
                             <li><a href="index.php?page=category"><i class="fa fa-globe"></i> <?= $category ?></a></li>
-                            <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
+                            <li><i class="fa fa-comments"></i> 03 Comments</li>
                         </ul>
                         <p class="excert"><?= $content ?></p>
                     </div>
                 </div>
                 <div class="navigation-top">
                     <div class="d-sm-flex justify-content-between text-center">
-                        <p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span>4 people like this</p>
+                        <form action="#" method="POST" name="likeForm" id="likeForm" class=""/>
+                            <div class="col-12 d-flex justify-content-left">
+                                <input type="submit" class="preventDefault btn btn-primary" id="likeButton" name="likeButton" value="Like"/>
+                                <input type="hidden" name="userL" id="userL" value="<?= $_SESSION['userId'] ?>"/>
+                                <input type="hidden" name="discussionL" id="discussionL" value="<?= $id ?>"/>
+                                <p class="like-info"><span class="align-middle">
+                                    &nbsp;&nbsp;&nbsp;
+                                        <i class="fa fa-heart"></i></a></span><span class="red likeConfirmation">   Liked! </span><span id="numberOfLikes"><?= $likes ?></span> people like this
+                                </p>
+                            </div>
+                        </form>
                     </div>
                 </div>
 

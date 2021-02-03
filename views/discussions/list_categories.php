@@ -7,7 +7,7 @@
             $number_of_discussions = executeQuery("SELECT COUNT(category) AS num FROM discussion WHERE category=$ctg->id")[0]->num;
         ?>
             <li>
-                <a href="#" class="d-flex">
+                <a href="index.php?page=category&id=<?= $ctg->id ?>" class="d-flex">
                     <p><?= $ctg->name ?></p>
                     <p>(<?= $number_of_discussions ?>)</p>
                 </a>

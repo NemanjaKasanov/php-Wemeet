@@ -7,7 +7,7 @@
 
         ?>
             <li>
-                <a href="index.php?discussion=<?= $ctg->id ?>"><?= $ctg->name ?></a>
+                <a href="index.php?page=category&id=<?= $ctg->id ?>"><?= $ctg->name ?></a>
             </li>
         <?php
         endforeach;

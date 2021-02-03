@@ -54,7 +54,7 @@ $userCity = $userData->city;
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-0">
-                <div class="blog_left_sidebar">
+                <div class="blog_left_sidebar" id="discussions_display_box">
 
                     <!-- POSTS -->
                     <?php

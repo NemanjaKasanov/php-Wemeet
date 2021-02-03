@@ -25,6 +25,18 @@ else{
         case 'discussion':
             include 'views/discussions/discussion.php';
             break;
+        case 'account':
+            include 'views/logging/account.php';
+            break;
+        case 'category':
+            include 'views/discussions/category.php';
+            break;
+
+
+
+        case 'aboutAuthor':
+            include 'views/other/aboutAuthor.php';
+            break;
     }
 }
 

@@ -18,7 +18,7 @@
 
                                     require 'models/nav/functions.php';
                                     
-                                    if(isset($_SESSION['userId'])) $query = "SELECT * FROM nav_elements WHERE parent=0 AND login_status=0 OR login_status=2 ORDER BY position ASC";
+                                    if(isset($_SESSION['userId'])) $query = "SELECT * FROM nav_elements WHERE parent=0 AND (login_status=0 OR login_status=2) ORDER BY position ASC";
                                     else $query = "SELECT * FROM nav_elements WHERE parent=0 AND login_status=0 OR login_status=1 ORDER BY position ASC";
 
                                     $rows = executeQuery($query);

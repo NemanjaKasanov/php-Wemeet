@@ -13,3 +13,7 @@ function getDiscussionCategory($discussion_id){
     $cat_id = executeQuery("SELECT category FROM discussion WHERE id=$discussion_id")[0]->category;
     return executeQuery("SELECT name FROM category WHERE id=$cat_id")[0]->name;
 }
+
+function getLikesForDiscussion($discussion_id){
+    return executeQuery("SELECT count(id) AS cnt FROM likes WHERE discussion=".$discussion_id)[0]->cnt;
+}
