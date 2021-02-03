@@ -58,7 +58,7 @@ $likes = getLikesForDiscussion($id);
                     <div class="media align-items-center">
                         <img src="assets/img/profile-pic.png" class="rounded" alt="<?= $user_name ?> <?= $user_last_name ?>">
                         <div class="media-body">
-                            <a href="#">
+                            <a href="index.php?page=user&id=<?= $user_id ?>">
                                 <h4>Author: <?= $user_name ?> <?= $user_last_name ?></h4>
                             </a>
                             <p><?= $user_city ?>, <?= $user_country ?></p>

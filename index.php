@@ -31,9 +31,9 @@ else{
         case 'category':
             include 'views/discussions/category.php';
             break;
-
-
-
+        case 'user':
+            include 'views/other/user.php';
+            break;
         case 'aboutAuthor':
             include 'views/other/aboutAuthor.php';
             break;

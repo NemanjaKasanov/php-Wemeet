@@ -33,6 +33,11 @@
                                 $user_name = $user_data->name.' '.$user_data->last_name;
                                 echo '<h3>'.$user_name.'</h3>';
                             }
+                            else if($page == 'user'){
+                                $user_data = getUserData($_GET['id'])[0];
+                                $user_name = $user_data->name.' '.$user_data->last_name;
+                                echo '<h3>'.$user_name.'</h3>';
+                            }
                             else if($page == 'category' && isset($_GET['id'])){
                                 if(isset($_GET['id'])){
                                     $ctg_id = $_GET['id'];
@@ -49,6 +54,7 @@
                                     echo '<h3>No Such Category, Wrong Id</h3>';
                                 }
                             }
+
 
                             else if($page == 'aboutAuthor') echo '<h3>About Author.</h3>';
                             else if($page == 'nologin') echo '<h3>You are not logged in or authorised to open this page.</h3>';
