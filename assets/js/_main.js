@@ -105,6 +105,49 @@ $(document).ready(function(){
         });
     });
 
+    // Search Functionality
+    $('#search_btn').click(function(e){
+        let value = $('#search').val();
+
+        $.ajax({
+            url: "models/discussions/search.php",
+            dataType: "json",
+            method: "POST",
+            data: {
+                value: value
+            },
+            success: function(data){
+                displayDiscussions(data.discussions, data.categories, data.users);
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+    });
+
+    // Friend Request Functionality
+    $('#friend_request').click(function(e){
+        let sender = $('#sender').val();
+        let receiver = $('#receiver').val();
+
+        $.ajax({
+            url: "models/account/friend_request.php",
+            dataType: "json",
+            method: "POST",
+            data: {
+                sender: sender,
+                receiver: receiver
+            },
+            success: function(data){
+                if(data == 0) $('#friendRequestNotificationText').text('Friend request sent.');
+                else if(data == 1) $('#friendRequestNotificationText').text('Friend request already sent and pending.');
+            },
+            error: function(err, textStatus){
+                console.log(textStatus);
+            }
+        });
+    });
+
 
 });
 

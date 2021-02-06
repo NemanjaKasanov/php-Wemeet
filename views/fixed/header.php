@@ -56,10 +56,11 @@
                             }
 
 
+
+                            else if($page == 'survey') echo '<h3>Survey</h3>';
                             else if($page == 'aboutAuthor') echo '<h3>About Author.</h3>';
                             else if($page == 'nologin') echo '<h3>You are not logged in or authorised to open this page.</h3>';
                             else echo '<h3>A page with this name does not exist.</h3>';
-                            
                             ?>
                         </div>
                     </div>

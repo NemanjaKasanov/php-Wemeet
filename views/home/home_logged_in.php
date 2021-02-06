@@ -67,6 +67,13 @@ $userCity = $userData->city;
             <!-- SIDE BAR -->
             <div class="col-lg-4">
                 <div class="blog_right_sidebar">
+
+                    <!-- FRIEND REQUESTS -->
+                    <?php
+                    include 'views/other/friend_requests_section.php';
+                    ?>
+                    <!-- FRIEND REQUESTS END -->
+
                     <!-- SEARCH -->
                     <?php
                     include 'views/discussions/search_section.php';

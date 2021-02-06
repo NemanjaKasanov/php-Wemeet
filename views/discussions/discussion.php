@@ -41,9 +41,15 @@ $likes = getLikesForDiscussion($id);
                     <div class="d-sm-flex justify-content-between text-center">
                         <form action="#" method="POST" name="likeForm" id="likeForm" class=""/>
                             <div class="col-12 d-flex justify-content-left">
+                                <?php
+                                    if(isset($_SESSION['userId'])):
+                                ?>
                                 <input type="submit" class="preventDefault btn btn-primary" id="likeButton" name="likeButton" value="Like"/>
                                 <input type="hidden" name="userL" id="userL" value="<?= $_SESSION['userId'] ?>"/>
                                 <input type="hidden" name="discussionL" id="discussionL" value="<?= $id ?>"/>
+                                <?php
+                                    endif;
+                                ?>
                                 <p class="like-info"><span class="align-middle">
                                     &nbsp;&nbsp;&nbsp;
                                         <i class="fa fa-heart"></i></a></span><span class="red likeConfirmation">   Liked! </span><span id="numberOfLikes"><?= $likes ?></span> people like this
@@ -69,6 +75,9 @@ $likes = getLikesForDiscussion($id);
                 <!-- AUTHOR DATA END -->
 
                 <!-- COMMENT FORM -->
+                <?php
+                if(isset($_SESSION['userId'])):
+                ?>
                 <div class="comment-form">
                     <h4>Leave a Comment</h4>
                     <form class="form-contact comment_form" action="#" method="POST" id="comment_form">
@@ -84,6 +93,9 @@ $likes = getLikesForDiscussion($id);
                         </div>
                     </form>
                 </div>
+                <?php
+                endif;
+                ?>
                 <!-- END COMMENT FORM -->
 
                 <!-- COMMENTS -->

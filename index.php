@@ -34,6 +34,10 @@ else{
         case 'user':
             include 'views/other/user.php';
             break;
+
+        case 'survey':
+            include 'views/other/survey.php';
+            break;
         case 'aboutAuthor':
             include 'views/other/aboutAuthor.php';
             break;

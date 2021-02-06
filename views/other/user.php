@@ -28,12 +28,23 @@ $user_role = $user_data->role;
             </p>
             <p class="h4 mb-5"><?= $desc ?></p>
             <?php
-            if(isset($_SESSION['userId'])):
+            if(isset($_SESSION['userId']) && $_SESSION['userId'] != $user_id):
+                $check1 = executeQuery("SELECT * FROM friendships WHERE first=$user_id AND second=".$_SESSION['userId']);
+                $check2 = executeQuery("SELECT * FROM friendships WHERE second=$user_id AND first=".$_SESSION['userId']);
+                if(count($check1) == 0 && count($check2) == 0):
             ?>
-                <form action="" method="" id="" name="">
-                    <input type="submit" class="btn btn-primary" id="" name="" value="Send a Friend Request"/>
+                <form action="models/account/friend_request.php" method="POST" id="request_form" name="request_form">
+                    <input type="hidden" name="sender" id="sender" value="<?= $_SESSION['userId'] ?>"/>
+                    <input type="hidden" name="receiver" id="receiver" value="<?= $user_id ?>"/>
+                    <input type="submit" class="btn btn-primary preventDefault" id="friend_request" name="friend_request" value="Send a Friend Request"/>
                 </form>
-            <?php endif; ?>
+                <p class="h6 mt-3" id="friendRequestNotificationText">Send a friend request to enable chat with this user.</p>
+            <?php
+                else:
+                echo '<p class="h6 mt-3" id="friendRequestNotificationText">This user is your friend.</p>';
+                endif;
+            endif;
+            ?>
         </div>
     </div>
 

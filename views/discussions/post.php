@@ -1,5 +1,8 @@
 <div class="col-12 d-flex justify-content-center">
     <div class="col-lg-6 col-sm-12 mt-5 mb-5 pt-5 pb-5">
+        <?php
+        if(isset($_SESSION['userId'])):
+        ?>
         <h3 class="mb-30 text-center">Fill in the form to post a discussion:</h3>
 
         <form id="post_form" name="post_form" action="models/discussions/post.php" method="POST" onsubmit="return postFormCheck()">
@@ -42,5 +45,11 @@
             </div>
 
         </form>
+    <?php
+    else:?>
+        <h3>Not logged in to post.</h3>
+    <?php
+    endif;
+    ?>
     </div>
 </div>
