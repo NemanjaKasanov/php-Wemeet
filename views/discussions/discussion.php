@@ -80,16 +80,18 @@ $likes = getLikesForDiscussion($id);
                 ?>
                 <div class="comment-form">
                     <h4>Leave a Comment</h4>
-                    <form class="form-contact comment_form" action="#" method="POST" id="comment_form">
+                    <form class="form-contact comment_form" action="models/discussions/comment.php" method="POST" id="comment_form" name="comment_form">
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Leave a Comment on This Discussion"></textarea>
+                                    <input type="hidden" value="<?= $_SESSION['userId'] ?>" id="comment_user_id" name="comment_user_id"/>
+                                    <input type="hidden" value="<?= $_GET['id'] ?>" id="discussion_id" name="discussion_id"/>
+                                    <textarea class="form-control w-100" name="content" id="comment_content" cols="30" rows="9" maxlength="200" placeholder="Leave a Comment on This Discussion"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="button button-contactForm btn_1 boxed-btn">Post a Comment</button>
+                            <input type="submit" class="button button-contactForm btn_1 boxed-btn preventDefault" id="comment_btn" name="comment_btn" value="Post a Comment"/>
                         </div>
                     </form>
                 </div>
@@ -100,85 +102,43 @@ $likes = getLikesForDiscussion($id);
 
                 <!-- COMMENTS -->
                 <div class="comments-area">
-                    <h4>05 Comments</h4>
+                    <?php
+                    $count_comments = executeQuery("SELECT COUNT(id) AS cnt FROM comments WHERE discussion=".$_GET['id'])[0]->cnt;
+                    ?>
+                    <h4><span id="comments_count"><?= $count_comments ?></span> Comments </h4>
+                    <div class="comment-list" id="comment_section">
+                        <?php
+                        $comments = executeQuery("SELECT * FROM comments WHERE discussion=".$_GET['id']);
+                        foreach($comments as $comment):
+                            $user_data = getUserData($comment->user)[0];
+                            $user_name = $user_data->name." ".$user_data->last_name;
+                        ?>
 
-                    <div class="comment-list">
-                        <div class="single-comment justify-content-between d-flex">
+                        <div class="single-comment justify-content-between d-flex mb-4">
                             <div class="user justify-content-between d-flex">
                                 <div class="thumb">
-                                    <img src="assets/img/profile-pic.png" class="rounded" alt="">
+                                    <img src="assets/img/profile-pic.png" class="rounded" alt="Comment">
                                 </div>
                                 <div class="desc">
                                     <p class="comment">
-                                        Multiply sea night grass fourth day sea lesser rule open subdue female fill which them
-                                        Blessed, give fill lesser bearing multiply sea night grass fourth day sea lesser
+                                        <?= $comment->content ?>
                                     </p>
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex align-items-center">
                                             <h5>
-                                                <a href="#">Emilly Blunt</a>
+                                                <a href="index.php?page=user&id=<?= $user_data->id ?>"><?= $user_name ?></a>
                                             </h5>
-                                            <p class="date">December 4, 2017 at 3:12 pm </p>
-                                        </div>
-                                        <div class="reply-btn">
-                                            <a href="#" class="btn-reply text-uppercase">reply</a>
+                                            <p class="date"><?= date('d.m.Y H:i:s', $comment->timestamp) ?> </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="comment-list">
-                        <div class="single-comment justify-content-between d-flex">
-                            <div class="user justify-content-between d-flex">
-                                <div class="thumb">
-                                    <img src="assets/img/profile-pic.png" class="rounded" alt="">
-                                </div>
-                                <div class="desc">
-                                    <p class="comment">
-                                        Multiply sea night grass fourth day sea lesser rule open subdue female fill which them
-                                        Blessed, give fill lesser bearing multiply sea night grass fourth day sea lesser
-                                    </p>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="d-flex align-items-center">
-                                            <h5>
-                                                <a href="#">Emilly Blunt</a>
-                                            </h5>
-                                            <p class="date">December 4, 2017 at 3:12 pm </p>
-                                        </div>
-                                        <div class="reply-btn">
-                                            <a href="#" class="btn-reply text-uppercase">reply</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment-list">
-                        <div class="single-comment justify-content-between d-flex">
-                            <div class="user justify-content-between d-flex">
-                                <div class="thumb">
-                                    <img src="assets/img/profile-pic.png" class="rounded" alt="">
-                                </div>
-                                <div class="desc">
-                                    <p class="comment">
-                                        Multiply sea night grass fourth day sea lesser rule open subdue female fill which them
-                                        Blessed, give fill lesser bearing multiply sea night grass fourth day sea lesser
-                                    </p>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="d-flex align-items-center">
-                                            <h5>
-                                                <a href="#">Emilly Blunt</a>
-                                            </h5>
-                                            <p class="date">December 4, 2017 at 3:12 pm </p>
-                                        </div>
-                                        <div class="reply-btn">
-                                            <a href="#" class="btn-reply text-uppercase">reply</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                        <?php
+                        endforeach;
+                        ?>
+
                     </div>
                 </div>
                 <!-- END COMMENTS -->

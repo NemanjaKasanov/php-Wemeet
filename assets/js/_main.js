@@ -148,6 +148,30 @@ $(document).ready(function(){
         });
     });
 
+    // Post a Comment Functionality
+    $('#comment_btn').click(function(e){
+        let discussion_id = $('#discussion_id').val();
+        let content = $('#comment_content').val();
+
+        $.ajax({
+            url: "models/discussions/comment.php",
+            dataType: "json",
+            method: "POST",
+            data: {
+                discussion_id: discussion_id,
+                content: content
+            },
+            success: function(data){
+                $('#comment_content').val("");
+                $('#comments_count').html(data.count);
+                displayComments(data.comments, data.users);
+            },
+            error: function(err, textStatus){
+                console.log(err, textStatus);
+            }
+        });
+    });
+
 
 });
 
@@ -255,7 +279,44 @@ function showLikes(discussion){
     });
 }
 
+function displayComments(comments, users){
+    let html = "";
 
+    comments.forEach(el => {
+        let user_name = "";
+        users.forEach(user => {
+            if(user.id == el.user) user_name = user.name + " " + user.last_name;
+        });
+
+        let date = new Date((parseInt(el.timestamp) * 1000));
+        let day = date.getDate(), month = date.getMonth(), year = date.getFullYear(), hour = date.getHours(), minute = date.getMinutes(), second = date.getSeconds();
+        date = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+
+        html += `
+        <div class="single-comment justify-content-between d-flex mb-4">
+            <div class="user justify-content-between d-flex">
+                <div class="thumb">
+                    <img src="assets/img/profile-pic.png" class="rounded" alt="Comment">
+                </div>
+                <div class="desc">
+                    <p class="comment">
+                        ${el.content}
+                    </p>
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5>
+                                <a href="index.php?page=user&id=${el.user}">${user_name}</a>
+                            </h5>
+                            <p class="date">${date}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    });
+
+    $('#comment_section').html(html);
+}
 
 
 

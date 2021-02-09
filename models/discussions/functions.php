@@ -40,7 +40,7 @@ function create_discussions($where = ""){
         $image = rand(1, 5);
         $likes = getLikesForDiscussion($el->id);
 
-//                        ADD COMMENTS COUNT FOR EACH DISCUSSION
+        $count_comments = executeQuery("SELECT COUNT(id) AS cnt FROM comments WHERE discussion=".$el->id)[0]->cnt;
         ?>
         <article class="blog_item">
             <div class="blog_item_img">
@@ -59,12 +59,11 @@ function create_discussions($where = ""){
                     <li><a href="index.php?page=user&id=<?= $el->user_id ?>"><i class="fa fa-user"> <?= $user_name ?></i></a></li>
                     <li><a href="index.php?page=category&id=<?= $el->category ?>"><i class="fa fa-globe"> <?= $category ?></i></a></li>
                     <li><a href="index.php?page=discussion&id=<?= $el->id ?>"><i class="fa fa-comments"> </i> <?= $likes ?> Likes</a></li>
-                    <li><a href="index.php?page=discussion&id=<?= $el->id ?>"><i class="fa fa-comments"> </i> 03 Comments</a></li>
+                    <li><a href="index.php?page=discussion&id=<?= $el->id ?>"><i class="fa fa-comments"> </i> <?= $count_comments ?> Comments</a></li>
                 </ul>
             </div>
         </article>
     <?php endforeach; ?>
-    <!-- POSTS END -->
 
     <?php
     $next_page = $page + 1;
